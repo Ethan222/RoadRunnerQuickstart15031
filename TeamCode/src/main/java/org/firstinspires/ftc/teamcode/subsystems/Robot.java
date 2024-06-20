@@ -6,10 +6,10 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 
 public class Robot {
     public SampleMecanumDrive drive;
-    public Claw claw;
+    public Arm arm;
 
     public Robot(HardwareMap hardwareMap) {
         drive = new SampleMecanumDrive(hardwareMap);
-        claw = new Claw(hardwareMap);
+        arm = new Arm(hardwareMap);
     }
 }

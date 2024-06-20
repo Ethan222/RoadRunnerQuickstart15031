@@ -4,20 +4,15 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.Claw;
+import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp (group = "drive")
 public class TeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         /******* Initialization *******/
-        // initialize drivetrain
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        // initialize servo
-        Claw claw = new Claw(hardwareMap);
+        Robot robot = new Robot(hardwareMap);
+        robot.drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         /*** Wait for start button ***/
         waitForStart();
@@ -26,24 +21,24 @@ public class TeleOp extends LinearOpMode {
         while (!isStopRequested()) {
             /*** runtime code ***/
             // update drive
-            drive.setWeightedDrivePower(
+            robot.drive.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y,
                             -gamepad1.left_stick_x,
                             -gamepad1.right_stick_x
                     )
             );
-            drive.update();
+            robot.drive.update();
 
             // control servo with a/b
             if (gamepad1.a) {
-                claw.close();
+                robot.arm.claw.close();
             } else if (gamepad1.b) {
-                claw.open();
+                robot.arm.claw.open();
             }
 
             // update the telemetry
-            telemetry.addData("Claw position", "%.3f", claw.getPosition());
+            telemetry.addData("Claw position", "%.3f", robot.arm.claw.getPosition());
             telemetry.update();
         }
     }
